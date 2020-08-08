@@ -1,4 +1,4 @@
-package com.sourav.petclinic.config;
+package com.sourav.petclinic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
