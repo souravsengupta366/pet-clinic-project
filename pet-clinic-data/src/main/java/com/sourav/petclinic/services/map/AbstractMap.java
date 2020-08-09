@@ -1,4 +1,4 @@
-package com.sourav.petclinic.map;
+package com.sourav.petclinic.services.map;
 
 import com.sourav.petclinic.services.CrudService;
 
