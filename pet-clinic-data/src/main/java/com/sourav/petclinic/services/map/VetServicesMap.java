@@ -2,21 +2,22 @@ package com.sourav.petclinic.services.map;
 
 import com.sourav.petclinic.model.Vet;
 import com.sourav.petclinic.services.VetServices;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
-
+@Profile({"mapBased","default"})
 @Service
 public class VetServicesMap extends AbstractMap<Vet,Long> implements VetServices {
     @Override
-    public Vet findById(Long aLong) {
-        return super.findById(aLong);
+    public Vet findById(Long id) {
+        return super.findById(id);
     }
 
     @Override
-    public Vet save(Long aLong, Vet object) {
-        return super.save(aLong, object);
+    public Vet save(Vet object) {
+        return super.save(object);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class VetServicesMap extends AbstractMap<Vet,Long> implements VetServices
     }
 
     @Override
-    public void deleteById(Long aLong) {
-        super.deleteById(aLong);
+    public void deleteById(Long id) {
+        super.deleteById(id);
     }
 }
