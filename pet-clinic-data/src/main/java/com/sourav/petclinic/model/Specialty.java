@@ -8,8 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class PetType extends BaseEntity {
-    private String name;
-
-
+public class Specialty extends BaseEntity{
+    private String speciality;
 }

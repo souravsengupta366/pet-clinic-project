@@ -1,10 +1,14 @@
 package com.sourav.petclinic.model;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Visit extends BaseEntity{
 
     private LocalDate date;
