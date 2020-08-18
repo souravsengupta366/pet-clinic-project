@@ -9,5 +9,5 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class Specialty extends BaseEntity{
-    private String speciality;
+    private String description;
 }

@@ -2,6 +2,7 @@ package com.sourav.petclinic.model;
 
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ import java.util.Set;
 
 public class Vet extends Person{
 
-    private Set<Specialty> specialties;
+    private Set<Specialty> specialties = new HashSet<>();
 
 
     @Override

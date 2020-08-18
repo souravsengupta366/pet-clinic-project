@@ -1,11 +1,9 @@
 package com.sourav.petclinic.bootstrap;
 
-import com.sourav.petclinic.model.Owner;
-import com.sourav.petclinic.model.Pet;
-import com.sourav.petclinic.model.PetType;
-import com.sourav.petclinic.model.Vet;
+import com.sourav.petclinic.model.*;
 import com.sourav.petclinic.services.OwnerServices;
 import com.sourav.petclinic.services.PetTypeServices;
+import com.sourav.petclinic.services.SpecialtyService;
 import com.sourav.petclinic.services.VetServices;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -17,17 +15,25 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerServices ownerServices;
     private final VetServices vetServices;
     private final PetTypeServices petTypeServices;
+    private final SpecialtyService specialtyService;
 
 //    @Autowired // From spring5, for constructors like below, you donot need to mention @Autowired as spring automatically reads it like that
-    DataLoader(OwnerServices ownerServices, VetServices vetServices, PetTypeServices petTypeServices){
+    DataLoader(OwnerServices ownerServices, VetServices vetServices, PetTypeServices petTypeServices, SpecialtyService specialtyService){
         this.ownerServices = ownerServices;
         this.vetServices = vetServices;
         this.petTypeServices = petTypeServices;
+        this.specialtyService = specialtyService;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
+        if(petTypeServices.findAll().size() == 0)
+         loadData();
+
+    }
+
+    private void loadData() {
         PetType dog = new PetType();
         dog.setName("Dog");
         PetType savedDogPetType = petTypeServices.save(dog);
@@ -72,13 +78,32 @@ public class DataLoader implements CommandLineRunner {
         Vet vet1 = new Vet();
         vet1.setFirstName("Uma");
         vet1.setLastName("Sengupta");
-        vetServices.save(vet1);
+        Vet savedVetUma = vetServices.save(vet1);
 
         Vet vet2 = new Vet();
         vet2.setFirstName("Akansha");
         vet2.setLastName("Sengupta");
-        vetServices.save(vet2);
+        Vet savedVetAkansha = vetServices.save(vet2);
 
+        Specialty specialty1 = new Specialty();
+        specialty1.setDescription("radiology");
+        Specialty savedSpecialtyRadiology = specialtyService.save(specialty1);
+
+        Specialty specialty2 = new Specialty();
+        specialty2.setDescription("surgery");
+        Specialty savedSpecialtySurgery = specialtyService.save(specialty2);
+
+        Specialty specialty3 = new Specialty();
+        specialty3.setDescription("dentistry");
+        Specialty savedSpecialtyDentistry = specialtyService.save(specialty3);
+
+        savedVetUma.getSpecialties().add(savedSpecialtyDentistry);
+        savedVetAkansha.getSpecialties().add(savedSpecialtyRadiology);
+        savedVetAkansha.getSpecialties().add(savedSpecialtySurgery);
+
+
+
+/**** Testing starts below *****/
         System.out.println("Data has been loaded for Owners and Vets");
         System.out.println("Owner services size: "+ownerServices.findAll().size()+" \nVetServices size: "+ vetServices.findAll().size());
         System.out.println("Pet Type Services size: "+petTypeServices.findAll().size());
@@ -93,5 +118,14 @@ public class DataLoader implements CommandLineRunner {
                     pet.getType().getId() +"\n");
         });
 
+        System.out.println("The total number of specialties are: ");
+        specialtyService.findAll().forEach(specialty -> {
+            System.out.println(specialty.getId()+". "+specialty.getDescription());
+        });
+        System.out.println("#### Vets #####");
+        vetServices.findAll().forEach(vet -> {
+            System.out.println(vet.getId()+". "+"Specialities of Vet: "+vet.getFirstName() +" is/are:");
+            vet.getSpecialties().forEach(specialty -> System.out.println(specialty.getId()+". "+specialty.getDescription()));
+        });
     }
 }
