@@ -2,6 +2,7 @@ package com.sourav.petclinic.model;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -13,8 +14,14 @@ import java.util.Set;
 @ToString
 //@EqualsAndHashCode -> is not considering the fields which is being inherited from the super or parent class, this is why @Data is not a good option.
 
+@Entity
+@Table(name = "vets")
 public class Vet extends Person{
 
+    @ManyToMany (fetch = FetchType.EAGER)//by default its lazy
+    @JoinTable(name = "vet_specialty_rel",
+    joinColumns = @JoinColumn(name = "vet_fk"),
+    inverseJoinColumns = @JoinColumn(name = "specialty_fk"))
     private Set<Specialty> specialties = new HashSet<>();
 
 

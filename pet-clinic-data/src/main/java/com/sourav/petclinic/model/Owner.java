@@ -2,6 +2,10 @@ package com.sourav.petclinic.model;
 
 import lombok.*;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -11,11 +15,15 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Entity
+@Table(name = "Owners")
 public class Owner extends Person{
+
 
     private String address;
     private String city;
     private String phone;
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "owner")
     private Set<Pet> pets = new HashSet<>();
 
     @Override
