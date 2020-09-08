@@ -6,6 +6,7 @@ import com.sourav.petclinic.services.SpecialtyService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -30,7 +31,9 @@ public class SpecialtyServicesJpa implements SpecialtyService {
 
     @Override
     public Set<Specialty> findAll() {
-        return ( Set<Specialty>) specialityRepository.findAll();
+        Set<Specialty> specialties = new HashSet<>();
+        specialityRepository.findAll().forEach(specialty -> specialties.add(specialty));
+        return specialties;
     }
 
     @Override

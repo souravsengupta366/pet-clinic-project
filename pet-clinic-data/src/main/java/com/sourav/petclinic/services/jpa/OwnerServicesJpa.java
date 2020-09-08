@@ -8,6 +8,7 @@ import com.sourav.petclinic.services.PetTypeServices;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -42,7 +43,9 @@ public class OwnerServicesJpa implements OwnerServices {
 
     @Override
     public Set<Owner> findAll() {
-        return (Set<Owner>) ownerRepository.findAll();
+        Set<Owner> owners = new HashSet<>();
+        ownerRepository.findAll().forEach(owner -> owners.add(owner));
+        return owners;
     }
 
     @Override

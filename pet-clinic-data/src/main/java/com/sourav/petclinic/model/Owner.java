@@ -26,6 +26,19 @@ public class Owner extends Person{
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "owner")
     private Set<Pet> pets = new HashSet<>();
 
+    @Builder
+    public Owner(Long id, String firstName, String lastName, String address, String city,
+                 String phone, Set<Pet> pets) {
+        super(id, firstName, lastName);
+        this.address = address;
+        this.city = city;
+        this.phone = phone;
+
+        if(pets != null) {
+            this.pets = pets;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

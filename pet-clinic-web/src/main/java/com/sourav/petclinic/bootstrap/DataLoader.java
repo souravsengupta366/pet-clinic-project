@@ -100,6 +100,11 @@ public class DataLoader implements CommandLineRunner {
         savedVetUma.getSpecialties().add(savedSpecialtyDentistry);
         savedVetAkansha.getSpecialties().add(savedSpecialtyRadiology);
         savedVetAkansha.getSpecialties().add(savedSpecialtySurgery);
+        /** Since I am saving the same variable which was returned from the save method, it will not create a new entry
+         * in the table, rather it will update it**/
+        savedVetUma.setLastName("Dasgupta");
+        vetServices.save(savedVetAkansha);
+        vetServices.save(savedVetUma);
 
 
 

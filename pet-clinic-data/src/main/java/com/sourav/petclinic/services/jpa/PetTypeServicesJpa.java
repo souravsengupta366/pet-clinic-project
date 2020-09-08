@@ -6,6 +6,7 @@ import com.sourav.petclinic.services.PetTypeServices;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -29,7 +30,9 @@ public class PetTypeServicesJpa implements PetTypeServices {
 
     @Override
     public Set<PetType> findAll() {
-        return (Set<PetType>)petTypeRepository.findAll();
+        Set<PetType> petTypes = new HashSet<>();
+        petTypeRepository.findAll().forEach(petType ->petTypes.add(petType));
+        return petTypes;
     }
 
     @Override
