@@ -1,9 +1,12 @@
 package com.sourav.petclinic.model;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -11,11 +14,12 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
+//@EqualsAndHashCode
 @Entity
 public class Pet extends BaseEntity{
 
     private String name;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthDate;
     @ManyToOne
     @JoinColumn(name = "type_id")
@@ -25,6 +29,32 @@ public class Pet extends BaseEntity{
     private Owner owner;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "visit_id")
-    private Set<Visit> visit;
+    private Set<Visit> visit =  new HashSet<>();
 
+    @Builder
+    public Pet(Long id, String name, PetType type, Owner owner, LocalDate birthDate, Set<Visit> visits) {
+        super(id);
+        this.name = name;
+        this.type = type;
+        this.owner = owner;
+        this.birthDate = birthDate;
+
+        if (visits == null || visits.size() > 0 ) {
+            this.visit = visit;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Pet)) return false;
+        if (!super.equals(o)) return false;
+        Pet pet = (Pet) o;
+        return Objects.equals(id, pet.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id);
+    }
 }

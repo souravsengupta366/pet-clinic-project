@@ -13,11 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(MockitoExtension.class)
 class OwnerServicesJpaTest {
     @Mock
@@ -40,14 +35,14 @@ class OwnerServicesJpaTest {
 
 
 
-    @Test
-    void findByLastName() {
-
-        when(ownerRepository.findByLastName(any())).thenReturn(owner);
-        ownerRepository.save(owner.get());
-        assertEquals("Sengupta",ownerRepository.findByLastName("Sengupta").get().getLastName());
-        System.out.println(ownerServicesJpa.findAll().size());
-    }
+//    @Test
+//    void findByLastName() {
+//
+//        when(ownerRepository.findByLastName(any())).thenReturn(owner);
+//        ownerRepository.save(owner.get());
+//        assertEquals("Sengupta",ownerRepository.findByLastName("Sengupta").get().getLastName());
+//        System.out.println(ownerServicesJpa.findAll().size());
+//    }
 
     @Test
     void findById() {

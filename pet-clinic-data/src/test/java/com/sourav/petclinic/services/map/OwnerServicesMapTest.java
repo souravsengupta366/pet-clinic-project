@@ -28,14 +28,14 @@ class OwnerServicesMapTest {
         ownerServices.save(Owner.builder().lastName("Sengupta").firstName("Sourav").id(4L).build());
     }
 
-    @Test
-    void findByLastName() {
-        //the below may fail sometimes since the below may not be the first name with that title
-        Owner owner = ownerServices.findByLastName("Sengupta");
-//        System.out.println("Owner name: "+owner.getFirstName()+" "+owner.getLastName());
-        assertEquals("Akansha",owner.getFirstName());
-//        System.out.println(ownerServices.findAll().size());
-    }
+//    @Test
+//    void findByLastName() {
+//        //the below may fail sometimes since the below may not be the first name with that title
+//        Owner owner = ownerServices.findByLastName("Sengupta");
+////        System.out.println("Owner name: "+owner.getFirstName()+" "+owner.getLastName());
+//        assertEquals("Akansha",owner.getFirstName());
+////        System.out.println(ownerServices.findAll().size());
+//    }
 
     @Test
     void findById() {

@@ -2,8 +2,11 @@ package com.sourav.petclinic.services;
 
 import com.sourav.petclinic.model.Owner;
 
+import java.util.Set;
+
 public interface OwnerServices extends CrudService<Owner,Long>{
 //    public final boolean flagTest = false;
-    Owner findByLastName(String lastName);
+    Set<Owner> findByLastName(String lastName);
+//    Owner findByName(String firstName, String lastName);
 
 }

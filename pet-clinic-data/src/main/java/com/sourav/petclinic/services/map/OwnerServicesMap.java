@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Profile({"mapBased","default"})
 @Service
@@ -24,7 +25,7 @@ public class OwnerServicesMap extends AbstractMap<Owner,Long> implements OwnerSe
 
 
     @Override
-    public Owner findByLastName(String lastName) {
+    public Set<Owner> findByLastName(String lastName) {
 
 //        for(Owner owner : map.values()){
 //            if(owner.getLastName().equals("Sengupta"))
@@ -33,8 +34,7 @@ public class OwnerServicesMap extends AbstractMap<Owner,Long> implements OwnerSe
         return this.findAll()
                 .stream()
                 .filter(owner -> owner.getLastName().equalsIgnoreCase(lastName))
-                .findFirst()
-                .orElse(null);
+                .collect(Collectors.toSet());
 
 
     }

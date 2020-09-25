@@ -27,13 +27,19 @@ public class OwnerServicesJpa implements OwnerServices {
     }
 
     @Override
-    public Owner findByLastName(String lastName) {
-        return ownerRepository.findByLastName(lastName).get();
+    public Set<Owner> findByLastName(String lastName) {
+        Set<Owner> ownerSet = new HashSet<>();
+        ownerRepository.findByLastName(lastName).forEach(optionalOwner -> ownerSet.add(optionalOwner.get()));
+        return ownerSet;
     }
+
 
     @Override
     public Owner findById(Long id) {
-        return ownerRepository.findById(id).get();
+         if(ownerRepository.findById(id).isPresent()) {
+             return ownerRepository.findById(id).get();
+         }
+        return null;
     }
 
     @Override
