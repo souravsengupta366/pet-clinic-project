@@ -1,7 +1,10 @@
 package com.sourav.petclinic.controller;
 
+import com.sourav.petclinic.exceptionClasses.InvalidFormat;
+import com.sourav.petclinic.exceptionClasses.NotFoundException;
 import com.sourav.petclinic.model.Owner;
 import com.sourav.petclinic.services.OwnerServices;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +30,22 @@ public class OwnerController {
         return "owners/index";
     }
 
+//    @GetMapping("/owners/{ownerId}")
+//    public ModelAndView getOwner(@PathVariable Long ownerId){
+//
+//        ModelAndView mv = new ModelAndView("owners/ownerDetails");
+//        mv.addObject(ownerServices.findById(ownerId));
+//        return mv;
+//    }
+
     @GetMapping("/owners/{ownerId}")
-    public ModelAndView getOwner(@PathVariable Long ownerId){
+    public ModelAndView getOwner(@PathVariable String ownerId){
         ModelAndView mv = new ModelAndView("owners/ownerDetails");
-        mv.addObject(ownerServices.findById(ownerId));
+        try {
+            mv.addObject(ownerServices.findById(new Long(ownerId)));
+        }catch(NumberFormatException numberFormatException){
+            throw new InvalidFormat("The id: "+ownerId+" should be a number");
+        }finally {}
         return mv;
     }
 
@@ -95,8 +110,23 @@ public class OwnerController {
 
     @PostMapping("/owners/{id}/edit")
     public String editOwner(@ModelAttribute Owner owner){
-        ownerServices.save(owner);
-        return "redirect:/owners";
+        Owner savedOwner = ownerServices.save(owner);
+        return "redirect:/owners/"+savedOwner.getId();
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView notFoundExceptionHandler(Exception exception){
+        ModelAndView mv = new ModelAndView("error/404");
+        mv.addObject("exception",exception);
+        return mv;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidFormat.class)
+    public ModelAndView NumberFormatException(Exception exception){
+        ModelAndView mv = new ModelAndView(("error/400"));
+        mv.addObject("exception",exception);
+        return mv;
+
+    }
 }

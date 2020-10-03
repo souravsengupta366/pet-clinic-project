@@ -58,12 +58,22 @@ public class DataLoader implements CommandLineRunner {
         owner2.setPhone("1232312343");
         Owner savedOwnerGaurabh = ownerServices.save(owner2);
 
+        Vet vet1 = new Vet();
+        vet1.setFirstName("Uma");
+        vet1.setLastName("Sengupta");
+        Vet savedVetUma = vetServices.save(vet1);
+
+        Vet vet2 = new Vet();
+        vet2.setFirstName("Akansha");
+        vet2.setLastName("Sengupta");
+        Vet savedVetAkansha = vetServices.save(vet2);
+
         Pet ssgPet = new Pet();
         ssgPet.setType(savedDogPetType);
         ssgPet.setBirthDate(LocalDate.now());
         ssgPet.setName("Chiku");
         ssgPet.setOwner(savedOwnerSourav);
-        Visit visitSouravPet = new Visit(LocalDate.now(),savedOwnerSourav,ssgPet,"Check up for rashes");
+        Visit visitSouravPet = new Visit(LocalDate.now(),savedOwnerSourav,ssgPet,vet1,"Check up for rashes");
         ssgPet.getVisit().add(visitSouravPet);
         savedOwnerSourav.getPets().add(ssgPet);
         ownerServices.save(savedOwnerSourav);
@@ -75,20 +85,12 @@ public class DataLoader implements CommandLineRunner {
         grbPet.setBirthDate(LocalDate.now());
         grbPet.setName("Piku");
         grbPet.setOwner(savedOwnerGaurabh);
-        Visit visitGaurabhPet = new Visit(LocalDate.now(),savedOwnerGaurabh,grbPet,"Regular checkup");
+        Visit visitGaurabhPet = new Visit(LocalDate.now(),savedOwnerGaurabh,grbPet,vet1,"Regular checkup");
         grbPet.getVisit().add(visitGaurabhPet);
         savedOwnerGaurabh.getPets().add(grbPet);
         ownerServices.save(savedOwnerGaurabh);
 
-        Vet vet1 = new Vet();
-        vet1.setFirstName("Uma");
-        vet1.setLastName("Sengupta");
-        Vet savedVetUma = vetServices.save(vet1);
 
-        Vet vet2 = new Vet();
-        vet2.setFirstName("Akansha");
-        vet2.setLastName("Sengupta");
-        Vet savedVetAkansha = vetServices.save(vet2);
 
         Specialty specialty1 = new Specialty();
         specialty1.setDescription("radiology");

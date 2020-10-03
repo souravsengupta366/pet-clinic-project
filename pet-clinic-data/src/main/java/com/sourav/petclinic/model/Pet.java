@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 //@EqualsAndHashCode
 @Entity
 public class Pet extends BaseEntity{
@@ -27,20 +27,19 @@ public class Pet extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Owner owner;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "visit_id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "pet")
     private Set<Visit> visit =  new HashSet<>();
 
     @Builder
-    public Pet(Long id, String name, PetType type, Owner owner, LocalDate birthDate, Set<Visit> visits) {
+    public Pet(Long id, String name, PetType type, Owner owner, LocalDate birthDate, Set<Visit> visit) {
         super(id);
         this.name = name;
         this.type = type;
         this.owner = owner;
         this.birthDate = birthDate;
 
-        if (visits == null || visits.size() > 0 ) {
-            this.visit = visit;
+        if (visit == null || visit.size() > 0 ) {
+            this.visit = this.visit;
         }
     }
 
@@ -56,5 +55,28 @@ public class Pet extends BaseEntity{
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), id);
+    }
+
+
+    @Override
+    public String toString() {
+        if(owner !=  null) {
+                return "Pet{" +
+                    "name='" + name + '\'' +
+                    ", birthDate=" + birthDate +
+                    ", type=" + type +
+                    ", owner=" + owner.getFirstName() +
+                    " " + owner.getLastName() +
+                    ", visit=" + visit +
+                    '}';
+        }
+        return "Pet{" +
+                "name='" + name + '\'' +
+                ", birthDate=" + birthDate +
+                ", type=" + type +
+                ", owner=" + null +
+                ", visit=" + visit +
+                '}';
+
     }
 }

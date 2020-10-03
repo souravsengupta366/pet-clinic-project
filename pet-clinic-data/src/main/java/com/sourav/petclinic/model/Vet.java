@@ -11,7 +11,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 //@EqualsAndHashCode -> is not considering the fields which is being inherited from the super or parent class, this is why @Data is not a good option.
 
 @Entity
@@ -23,6 +23,8 @@ public class Vet extends Person{
     joinColumns = @JoinColumn(name = "vet_fk"),
     inverseJoinColumns = @JoinColumn(name = "specialty_fk"))
     private Set<Specialty> specialties = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "vet")
+    private Set<Visit> visits = new HashSet<>();
 
 
     @Override
@@ -37,5 +39,10 @@ public class Vet extends Person{
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), specialties, id);
+    }
+
+    @Override
+    public String toString() {
+        return getFirstName()+" "+getLastName();
     }
 }

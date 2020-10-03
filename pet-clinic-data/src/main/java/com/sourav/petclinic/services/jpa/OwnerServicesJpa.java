@@ -1,5 +1,6 @@
 package com.sourav.petclinic.services.jpa;
 
+import com.sourav.petclinic.exceptionClasses.NotFoundException;
 import com.sourav.petclinic.model.Owner;
 import com.sourav.petclinic.repositories.OwnerRepository;
 import com.sourav.petclinic.services.OwnerServices;
@@ -39,7 +40,9 @@ public class OwnerServicesJpa implements OwnerServices {
          if(ownerRepository.findById(id).isPresent()) {
              return ownerRepository.findById(id).get();
          }
-        return null;
+         else{
+             throw new NotFoundException("There is no Owner with the id: "+id);
+         }
     }
 
     @Override

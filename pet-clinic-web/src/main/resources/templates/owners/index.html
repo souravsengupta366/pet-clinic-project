@@ -22,6 +22,14 @@
             <td th:text="${owner.lastName}">Last Name</td>
             <td> <a th:href="@{'/owners/'+${owner.id}}">View </a></td>
         </tr>
+<!--        <tr>-->
+<!--            <td>-->
+<!--                <a class="btn btn-default" th:href="@{/owners/find}">find Owner</a>-->
+<!--            </td>-->
+<!--        </tr>-->
     </table>
+
+    <br />
+    <a class="btn btn-default"  th:href="@{/owners/find}">find Owner</a>
 </body>
 </html>
