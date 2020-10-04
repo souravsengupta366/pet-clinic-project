@@ -55,8 +55,13 @@ public class PetController {
             System.out.println("Owner of the pet is: "+pet.getOwner().getFirstName());
         }catch (Exception e){
             System.out.println("error faced in printing segment of addPet");
-            e.printStackTrace();
+            if(pet == null)
+                System.out.println("The model attribute pet is null");
+            else
+                System.out.println("pet had no owner set");
+//            e.printStackTrace();
         }
+        System.out.println("setting owner for pet");
         pet.setOwner(owner);
         owner.getPets().add(pet);
         ownerServices.save(owner);

@@ -23,6 +23,13 @@ public class OwnerServicesMap extends AbstractMap<Owner,Long> implements OwnerSe
         this.petServices= petServices;
     }
 
+    @Override
+    public Set<Owner> findByFirstName(String firstName) {
+        return this.findAll()
+                .stream()
+                .filter(owner -> owner.getFirstName().equalsIgnoreCase(firstName))
+                .collect(Collectors.toSet());
+    }
 
     @Override
     public Set<Owner> findByLastName(String lastName) {

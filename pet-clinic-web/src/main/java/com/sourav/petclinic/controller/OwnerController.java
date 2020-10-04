@@ -57,29 +57,66 @@ public class OwnerController {
     }
 
     @PostMapping("owners/find")
-    public String findOwnerByName(@ModelAttribute Owner owner){
+    public String findOwnerByName(@ModelAttribute Owner owner, Model model){
         final Long[] id = {-1l};
         Set<Owner> ownerFound = null;
 
-        if(owner.getLastName()==null || owner.getLastName().trim().length() == 0)
+        if((owner.getLastName()==null || owner.getLastName().trim().length() == 0) &&
+                (owner.getFirstName() == null || owner.getFirstName().trim().length() == 0 ))
             return "redirect:/owners";
-        System.out.println("owner has a last name --> "+owner.getLastName());
-        try{
-            ownerFound = ownerServices.findByLastName(owner.getLastName());
-        }catch(Exception e){
-            System.out.println("Got exception in findOwnerByName");
-            e.printStackTrace();
+        if(owner.getLastName().trim().length()>0){
+            System.out.println("owner has a last name --> "+owner.getLastName());
+            try{
+                ownerFound = ownerServices.findByLastName(owner.getLastName());
+            }catch(Exception e){
+                System.out.println("Got exception in findOwnerByName");
+                e.printStackTrace();
+            }
+            if(ownerFound == null)
+                throw new RuntimeException("Sorry!! There is no owner with that last name.");
+            else
+                System.out.println("Owner has been found, number of owners found -->"+ownerFound.size());
         }
 
-        if(ownerFound == null)
-            throw new RuntimeException("Sorry!! There is no owner with that last name.");
+
+
+        if(owner.getFirstName() == null || owner.getFirstName().trim().length() == 0    ){
+            model.addAttribute("owners",ownerFound);
+            return "owners/index";
+        }
         else
-            System.out.println("Owner has been found, number of owners found -->"+ownerFound.size());
-        ownerFound.forEach(ownr -> {
-            if(ownr.getFirstName().equalsIgnoreCase(owner.getFirstName())) {
-                id[0] = ownr.getId();
+            System.out.println("Owner has a first name --> "+owner.getFirstName());
+
+        if(ownerFound == null){
+            try{
+                ownerFound = ownerServices.findByFirstName(owner.getFirstName());
+            }catch (Exception e){
+                System.out.println("Got exception in findOwnerByName");
+                e.printStackTrace();
+            }finally { }
+            if(ownerFound == null)
+                throw new RuntimeException("Sorry!! There is no owner with that last name.");
+            else {
+                System.out.println("Owner has been found, number of owners found -->" + ownerFound.size());
+                if(ownerFound.size()>1){
+                    System.out.println("there are multiple owners with that first name");
+                    model.addAttribute("owners",ownerFound);
+                    return "owners/index";
+                }
+                else{
+                    System.out.println("There is only one owner with that first name");
+                    ownerFound.forEach(vOwner -> id[0] = vOwner.getId());
+                }
             }
-        });
+        }
+        else{
+            ownerFound.forEach(ownr -> {
+                if(ownr.getFirstName().equalsIgnoreCase(owner.getFirstName())) {
+                    id[0] = ownr.getId();
+                }
+            });
+        }
+
         if(id[0] == -1l)
             throw new RuntimeException("Sorry!! There is no owner with that first name.");
         return "redirect:/owners/"+id[0];

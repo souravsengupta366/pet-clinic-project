@@ -34,6 +34,12 @@ public class OwnerServicesJpa implements OwnerServices {
         return ownerSet;
     }
 
+    @Override
+    public Set<Owner> findByFirstName(String firstName) {
+        Set<Owner> ownerSet = new HashSet<>();
+        ownerRepository.findByFirstName(firstName).forEach(optionalOwner -> ownerSet.add(optionalOwner.get()));
+        return ownerSet;
+    }
 
     @Override
     public Owner findById(Long id) {

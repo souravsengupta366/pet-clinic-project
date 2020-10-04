@@ -11,6 +11,6 @@ public interface OwnerRepository extends CrudRepository<Owner,Long> {
 
     public Set<Optional<Owner>> findByLastName(String lastName);
     public Optional<Owner> findById(Long id);
-    public Optional<Owner> findByFirstName(String firstName);
+    public Set<Optional<Owner>> findByFirstName(String firstName);
 
 }
