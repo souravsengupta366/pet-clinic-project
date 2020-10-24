@@ -9,5 +9,4 @@ public interface OwnerServices extends CrudService<Owner,Long>{
     Set<Owner> findByLastName(String lastName);
 //    Owner findByName(String firstName, String lastName);
     Set<Owner> findByFirstName(String firstName);
-
 }
