@@ -118,7 +118,8 @@ public class OwnerController {
         }
 
         if(id[0] == -1l)
-            throw new NotFoundException("Sorry!! There is no owner with that first name.");
+            throw new NotFoundException("Sorry!! There is no owner with that name.");
+
         return "redirect:/owners/"+id[0];
     }
 
